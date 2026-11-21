@@ -407,11 +407,9 @@ async function runWakeUp() {
   const messages = loadTimelineMessages();
   if (!messages) return;
 
-  const lastUserTime = getLastUserTime(messages);
-  if (!lastUserTime) {
-    console.log("未找到用户时间");
-    return;
-  }
+  // 暴力修复：找不到时间就用当前时间，绝不 return 卡死
+const lastUserTime = getLastUserTime(messages) || new Date();
+if (!lastUserTime) return; // 保险起见保留，但上面已经保证有值了
 
   const now = new Date();
   const diffMinutes = Math.floor((now - lastUserTime) / 1000 / 60);
