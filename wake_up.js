@@ -408,7 +408,7 @@ async function runWakeUp() {
   if (!messages) return;
 
   // 暴力修复：找不到时间就用当前时间，绝不 return 卡死
-const lastUserTime = getLastUserTime(messages) || new Date();
+const lastUserTime = getLastUserTime(messages) || new Date(Date.now() - 2 * 60 * 1000)
 if (!lastUserTime) return; // 保险起见保留，但上面已经保证有值了
 
   const now = new Date();
